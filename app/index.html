@@ -21,11 +21,36 @@
 
 <body unresolved fullbleed>
 
-  <div class="hero-unit">
-    <google-map latitude="37.77493" longitude="-122.41942">
-      <google-map-marker latitude="37.779" longitude="-122.3892" title="Go Giants!"></google-map-marker>
+  <div class="map_area">
+    <google-map latitude="38.6272" longitude="-90.1978" minZoom="9" maxZoom="20" fit>
+      <google-map-marker latitude="38.6272" longitude="-90.1978"
+                         title="Go Giants!" draggable="true">
+        <h6>Clean up area</h6>
+      </google-map-marker>
     </google-map>
   </div>
+  <div class="panel_area">
+    <div class="info_holder">
+
+    </div>
+  </div>
+
+
+
+  <button id="controlsToggle" onclick="toggleControls()">Toggle controls</button>
+
+  <script>
+    var gmap = document.querySelector('google-map');
+
+
+    gmap.addEventListener('api-load', function(e) {
+      document.querySelector('google-map-directions').map = this.map;
+    });
+
+    function toggleControls() {
+      gmap.disableDefaultUI = !gmap.disableDefaultUI;
+    }
+  </script>
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
