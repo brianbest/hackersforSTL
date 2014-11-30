@@ -1,0 +1,45 @@
+body {
+	
+}
+
+.map_area {
+	background-color: #023750;
+	padding: 30px;
+	width: 500px;
+	height: 400px;
+	float: left;
+}
+.panel_area {
+	background-color: #ffffff;
+	color: #FFE600;
+	width: 300px;
+	height: 400px;
+	float:right;
+}
+
+#createEvent {
+	background-color: #EF0456;
+	float: left;
+	font-family: 'Six Caps', sans-serif;
+	font-size: 40px;
+	color: white;
+	letter-spacing: 2px;
+	width: 120px;
+	height: 120px;
+	margin: 10px;
+}
+
+#joinEvent {
+	background-color: #FFCC00;
+	float: right;
+	font-family: 'Six Caps', sans-serif;
+	font-size: 40px;
+	color: white;
+	letter-spacing: 2px;
+	width: 120px;
+	height: 120px;
+	margin: 10px;
+}
+
+
+
