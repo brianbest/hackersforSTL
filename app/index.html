@@ -13,12 +13,28 @@
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild-->
 
+  <!-- general styling information -->
+  <link rel="stylesheet" href="styles/style.css">
+  <link href='http://fonts.googleapis.com/css?family=Six+Caps' rel='stylesheet' type='text/css'>
+
   <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
   <!-- build:vulcanized elements/elements.vulcanized.html -->
   <link rel="import" href="elements/elements.html">
   <link rel="import" href="bower_components/core-ajax/core-ajax.html">
   <!-- endbuild-->
 </head>
+
+<!-- This is the splash page for the site -->
+
+<div id="splashscreen">
+    <h2>Rally Point</h2>
+    <img src="http://i.telegraph.co.uk/multimedia/archive/02182/kitten_2182000b.jpg" />
+
+    <a href="#" class="enter_link">Enter on the website</a>
+</div>
+
+<!-- end of the splash page -->
+
 
 <body unresolved fullbleed>
 
@@ -62,6 +78,13 @@
 
 
   <script>
+
+  //The splash page jQuery 
+   $('.enter_link').click(function() { 
+        $(this).parent().fadeOut(500);
+ });
+ // Brians original code
+
     var gmap = document.querySelector('google-map');
 
 
