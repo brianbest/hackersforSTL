@@ -23,33 +23,69 @@
 
   <div class="map_area">
     <google-map latitude="38.6272" longitude="-90.1978" minZoom="9" maxZoom="20" fit>
-      <google-map-marker latitude="38.6272" longitude="-90.1978"
-                         title="Go Giants!" draggable="true">
-        <h6>Clean up area</h6>
-      </google-map-marker>
     </google-map>
   </div>
   <div class="panel_area">
-    <div class="info_holder">
+    <div id="info_panel" class="info_holder">
+      <button id="createEvent" onclick="makeEvent()">Create Event</button>
+      <button id="joinEvent" onclick="joinEvent()">Join Event</button>
 
+    </div>
+    <div id="create_panel" class="create_holder">
+      <form action="/" method="POST">
+        <input type="text" name="nameEvent" placeholder="Name of event">
+        <input type="text" name="usrName" placeholder="Your Name">
+        <input type="email" name="usrEmail" placeholder="name@email.com">
+        <input type="text" name="time" placeholder="time">
+        <button id="pinBtn" onclick="dropPin()">drop pin</button>
+        <input type="submit">
+      </form>
+    </div>
+    <div id="join_panel" class="join_holder">
+      <p>There are currently no events!</p>
+      <div id="event_list">
+
+      </div>
     </div>
   </div>
 
 
 
-  <button id="controlsToggle" onclick="toggleControls()">Toggle controls</button>
+
 
   <script>
     var gmap = document.querySelector('google-map');
 
 
     gmap.addEventListener('api-load', function(e) {
-      document.querySelector('google-map-directions').map = this.map;
+      //document.querySelector('google-map-directions').map = this.map;
     });
 
     function toggleControls() {
       gmap.disableDefaultUI = !gmap.disableDefaultUI;
     }
+
+    function dropPin(){
+
+      var createPin = document.createElement('google-map-marker');
+      createPin.setAttribute('latitude',"38.6272");
+      createPin.setAttribute('longitude',"-90.1978");
+      createPin.setAttribute('draggable',"true");
+      createPin.setAttribute('id',"createEventMarker");
+      gmap.appendChild(createPin);
+      document.getElementById('pinBtn').disabled = true;
+    }
+
+    function makeEvent(){
+      document.getElementById('info_panel').style.display = 'none';
+      document.getElementById('create_panel').style.display = 'block';
+    }
+
+    function joinEvent(){
+      document.getElementById('info_panel').style.display = 'none';
+      document.getElementById('join_panel').style.display = 'block';
+    }
+
   </script>
 
   <!-- build:js scripts/app.js -->

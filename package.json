@@ -1,7 +1,11 @@
 {
   "name": "hackersforstl",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "body-parser": "^1.9.3",
+    "express": "^4.9.5",
+    "socket.io": "^1.1.0"
+  },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-sass": "~0.7.3",
