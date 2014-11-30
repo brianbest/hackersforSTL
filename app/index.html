@@ -16,6 +16,7 @@
   <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
   <!-- build:vulcanized elements/elements.vulcanized.html -->
   <link rel="import" href="elements/elements.html">
+  <link rel="import" href="bower_components/core-ajax/core-ajax.html">
   <!-- endbuild-->
 </head>
 
@@ -23,22 +24,29 @@
 
   <div class="map_area">
     <google-map latitude="38.6272" longitude="-90.1978" minZoom="9" maxZoom="20" fit>
+      <core-ajax auto url="/getEvents" handleAs="json" hidden method="POST"></core-ajax>
+      <template repeat="{{response.events}}">
+        <google-map-marker latitude="{{lat}}" longitude="{{long}}" class="madeEvent">
+          <h3>{{name}}</h3>
+        </google-map-marker>
+      </template>
     </google-map>
   </div>
   <div class="panel_area">
     <div id="info_panel" class="info_holder">
       <button id="createEvent" onclick="makeEvent()">Create Event</button>
       <button id="joinEvent" onclick="joinEvent()">Join Event</button>
-
     </div>
     <div id="create_panel" class="create_holder">
-      <form action="/" method="POST">
+      <form id="make_the_event" action="/" method="POST">
         <input type="text" name="nameEvent" placeholder="Name of event">
         <input type="text" name="usrName" placeholder="Your Name">
         <input type="email" name="usrEmail" placeholder="name@email.com">
-        <input type="text" name="time" placeholder="time">
+        <input type="text" name="evtTime" placeholder="time">
+        <input type="text" name="evtLong" hidden id="ent_evtLong">
+        <input type="text" name="evtLat" hidden id="ent_evtLat">
         <button id="pinBtn" onclick="dropPin()">drop pin</button>
-        <input type="submit">
+        <button onclick="sendEvt()">Submit Event</button>
       </form>
     </div>
     <div id="join_panel" class="join_holder">
@@ -68,10 +76,10 @@
     function dropPin(){
 
       var createPin = document.createElement('google-map-marker');
-      createPin.setAttribute('latitude',"38.6272");
+      createPin.setAttribute('latitude',"38.6272"); //places marker in center of saint louis
       createPin.setAttribute('longitude',"-90.1978");
       createPin.setAttribute('draggable',"true");
-      createPin.setAttribute('id',"createEventMarker");
+      createPin.setAttribute('id',"createEventMarker"); // So we can steal the long lat info on submit
       gmap.appendChild(createPin);
       document.getElementById('pinBtn').disabled = true;
     }
@@ -86,6 +94,32 @@
       document.getElementById('join_panel').style.display = 'block';
     }
 
+    function sendEvt(){
+      //get long/lat from placed marker
+      var evtLat = document.getElementById('createEventMarker').getAttribute('latitude');
+      var evtLong = document.getElementById('createEventMarker').getAttribute('longitude');
+//      evtLat = parseFloat(evtLat);//Change from strings to floats
+//      evtLong = parseFloat(evtLong);
+
+      document.getElementById('ent_evtLong').value = evtLong;
+      document.getElementById('ent_evtLat').value = evtLat;
+
+      //send to server
+      document.getElementById('make_the_event').submit();
+    }
+
+    //List out all current events
+    document.addEventListener('polymer-ready', function() {
+      var ajax = document.querySelector("core-ajax");
+      ajax.addEventListener("core-response",
+        function(e) {
+          console.log(e.detail.response);
+          document.querySelector('template').model = {
+            response: e.detail.response
+          };
+        }
+      );
+    });
   </script>
 
   <!-- build:js scripts/app.js -->
