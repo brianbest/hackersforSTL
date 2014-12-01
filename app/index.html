@@ -42,6 +42,8 @@
         <google-map-marker latitude="{{lat}}" longitude="{{long}}" class="madeEvent" onclick="showDetails('{{nameEvent}}','{{evtTime}}')">
           <h2>{{nameEvent}} Start time: {{evtTime}}</h2>
           <p>{{evtDetails}}</p>
+          <p>Attending : </p>
+          <button onclick="showEvtDets('{{_id}}')">More Details</button>
         </google-map-marker>
       </template>
     </google-map>
@@ -55,7 +57,7 @@
 
     <div id="info_panel" class="info_holder">
       <button id="createEvent" onclick="makeEvent()">Create Event</button>
-      <button id="joinEvent" onclick="joinEvent()">Join Event</button>
+      <!--<button id="joinEvent" onclick="joinEvent()">Join Event</button>-->
     </div>
     <div id="create_panel" class="create_holder">
       <h2>Create event</h2>
@@ -75,29 +77,18 @@
       </form>
     </div>
     <div id="join_panel" class="join_holder">
-
-      <p>There are currently no events!</p>
-
       <h3 id="select_evtName"></h3>
-      <h3 id="select_evtTime">Starts at  {{evtTime}}</h3>
-
-      <div id="event_list">
-        <template repeat="{{response.events}}">
-          <div class="evt_listItem">
-
-          </div>
-        </template>
-      </div>
-
+      <h3>Starts at: <span id="select_evtTime"></span></h3>
+      <h3>People Attending: <span id="select_evtAttend"></span></h3>
+      <p id="select_evtDets"></p>
+      <button id="select_evtJoin">Join Event</button>
     </div>
     <div id="thx_panel" class="thx_holder">
       <p>Thank you, your event has been created. Please refresh</p>
     </div>
   </div>
 
-
-
-
+  <!--<core-ajax auto id="gimmeData" url="" handleAs="json" hidden method="POST"></core-ajax>-->
   <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
   <script>
 
@@ -106,7 +97,7 @@
 //        $(this).parent().fadeOut(500);
 // });
  // Brians original code
-
+    var allEvents = '';
     var gmap = document.querySelector('google-map');
 
 
@@ -116,6 +107,25 @@
 
     function toggleControls() {
       gmap.disableDefaultUI = !gmap.disableDefaultUI;
+    }
+
+    function showEvtDets(id){
+      console.log('works' + id);
+      for(var i = 0; i < allEvents.events.length; i++){
+        if(allEvents.events[i]._id == id){
+          console.log('Found it!');
+          document.getElementById('select_evtName').innerText = allEvents.events[i].nameEvent;
+          document.getElementById('select_evtTime').innerText = allEvents.events[i].evtTime;
+          document.getElementById('select_evtDets').innerText = allEvents.events[i].evtDetails;
+          document.getElementById('select_evtJoin').setAttribute('onclick',"joinEvent('"+ id +"')");
+          document.getElementById('getLocation').setAttribute('url',"joinEvent('"+ id +"')");
+          break;
+        }else{
+          console.log('Not found!');
+        }
+      }
+      document.getElementById('info_panel').style.display = 'none';
+      document.getElementById('join_panel').style.display = 'block';
     }
 
     function dropPin(){
@@ -135,9 +145,8 @@
       document.getElementById('create_panel').style.display = 'block';
     }
 
-    function joinEvent(){
-      document.getElementById('info_panel').style.display = 'none';
-      document.getElementById('join_panel').style.display = 'block';
+    function joinEvent(id){
+      $.get('/addMember',{theid : id});
     }
 
     function sendEvt(){
@@ -176,6 +185,7 @@
       ajax.addEventListener("core-response",
         function(e) {
           console.log(e.detail.response);
+          allEvents = e.detail.response;
           document.querySelector('template').model = {
             response: e.detail.response
           };

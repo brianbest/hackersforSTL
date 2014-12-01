@@ -8,6 +8,9 @@ var io = require('socket.io')(http);
 var bodyParser = require('body-parser');
 var util = require('util');
 
+var request = require('request');
+
+
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -82,7 +85,7 @@ app.post('/getEvents',function(req,res){
   var markers = [];
   MongoClient.connect("mongodb://brianbest:thisisatest1@dogen.mongohq.com:10032/rally_point", function(err, db) {
     if (!err) {
-      console.log("We are connected");
+      //console.log("We are connected");
     }
     var collection = db.collection('event');
     collection.find({}).toArray(function (err, docs) {
@@ -91,13 +94,26 @@ app.post('/getEvents',function(req,res){
       }
       docs.forEach(function (doc) {
         markers.push(doc);
-        console.log('found document: ', doc);
+        //console.log('found document: ', doc);
 
       });
-      console.log(markers);
+      //console.log(markers);
       res.send({events : markers});
     });
   });
+
+});
+
+app.get('/addMember', function(req,res){
+  theID = req.body.username;
+  MongoClient.connect("mongodb://brianbest:thisisatest1@dogen.mongohq.com:10032/rally_point", function(err, db) {
+    if (!err) {
+      //console.log("We are connected");
+    }
+    var collection = db.collection('event');
+    collection.findOne({_id:theID}, {w:1}, function(err, doc){
+  });
+
 
 });
 
