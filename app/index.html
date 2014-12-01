@@ -150,12 +150,14 @@
       document.getElementById('ent_evtLong').value = evtLong;
       document.getElementById('ent_evtLat').value = evtLat;
 
+      document.getElementById('createEventMarker').setAttribute('draggable',"false");
+
       //send to server
       document.getElementById('make_the_event').submit();
       document.getElementById('create_panel').style.display = 'none';
       document.getElementById('info_panel').style.display = 'none';
       document.getElementById('join_panel').style.display = 'none';
-      document.getElementById('thx_panel').style.display = 'none';
+      document.getElementById('thx_panel').style.display = 'block';
     }
 
   function showDetails(evtName,evtStartTime){
