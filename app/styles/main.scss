@@ -1,24 +1,15 @@
+@import url(http://fonts.googleapis.com/css?family=Six+Caps);
 body {
   background: #fafafa;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Six Caps', sans-serif;
   color: #333;
 }
 
-.hero-unit {
-  margin: 50px auto 0 auto;
-  width: 300px;
-  font-size: 18px;
-  font-weight: 200;
-  line-height: 30px;
-  background-color: #eee;
-  border-radius: 6px;
-  padding: 60px;
+p{
+  font-family: arial, sans-serif;
 }
-
-.hero-unit h1 {
-  font-size: 60px;
-  line-height: 1;
-  letter-spacing: -1px;
+google-map-marker{
+  font-family: arial, sans-serif;
 }
 
 .browsehappy {
@@ -42,4 +33,138 @@ body {
 }
 
 
-.create_holder,.join_holder{display: none;}
+//logo area
+.logo_area{
+  background-color: #023750;
+  img{
+    width: 150px;
+    margin: 0 auto;
+    display: block;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  h4{
+    color: #EF0456;
+    font-family: 'Six Caps', sans-serif;
+    font-size: 3rem;
+    margin: 0;
+    letter-spacing: 1px;
+  }
+}
+//
+
+.create_holder,.join_holder,.thx_holder{display: none;}
+
+
+.map_area {
+  background-color: #023750;
+  padding: 30px;
+  width: 500px;
+  height: 400px;
+  float: left;
+}
+.panel_area {
+  background-color: #ffffff;
+  width: 300px;
+  float:right;
+}
+
+.info_panel{
+  padding:1rem;
+  padding-top:3rem;
+}
+
+#createEvent {
+  background-color: #EF0456;
+  float: left;
+  font-size: 40px;
+  color: white;
+  letter-spacing: 2px;
+  width: 120px;
+  height: 120px;
+  margin: 10px;
+}
+button{
+  border: none;
+  font-family: 'Six Caps', sans-serif;
+}
+
+#joinEvent {
+  background-color: #FFCC00;
+  float: right;
+  font-size: 40px;
+  color: white;
+  letter-spacing: 2px;
+  width: 120px;
+  height: 120px;
+  margin: 10px;
+}
+
+#splashscreen{
+  position: absolute;
+  z-index: 100;
+}
+
+.create_holder,.join_holder{
+  padding:1rem;
+}
+.create_holder{
+  h2{
+    font-size: 2.5rem;
+    margin: 0;
+  }
+
+}
+//Input styling
+//------------------
+form{
+  input[type="text"],input[type="email"]{
+    width: 100%;
+    margin-bottom: 1rem;
+    height: 1.5rem;
+    border: none;
+    border-bottom: 1px solid #000000;
+  }
+  textarea{
+    width: 100%;
+    height: 4rem;
+
+  }
+  .btn_holder{
+    overflow: auto;
+    &:after{
+      clear:both;
+    }
+  }
+  .btn{
+    width: 130px;
+    height: 130px;
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 2.1rem;
+    text-transform: uppercase;
+    text-align: left;
+    color:#fff;
+    cursor: pointer;
+    background-color: #EF0456;
+    float: left;
+    span{
+      width: 50px;
+      margin: 0 auto;
+      display: block;
+      line-height: 35px;
+      letter-spacing: 2px;
+      margin-top: 0.5rem;
+
+    }
+    &:last-child{
+      margin-left: 5px;
+      background-color: #023750;
+      span{
+        margin-top: 1.5rem;
+      }
+    }
+  }
+}
+
+

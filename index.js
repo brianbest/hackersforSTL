@@ -21,43 +21,12 @@ var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 
 // Connection URL
-var url = 'mongodb://localhost:27017/myproject';
+var url = 'mongodb://localhost/myproject';
 // Use connect method to connect to the Server
-MongoClient.connect("mongodb://localhost:27017/myproject", function(err, db) {
+MongoClient.connect("mongodb://brianbest:thisisatest1@dogen.mongohq.com:10032/rally_point", function(err, db) {
   if(!err) {
     console.log("We are connected");
   }
-
-
-
-
-  app.post('/', function(req,res){
-    var collection = db.collection('event');
-    var info = {
-      nameEvent : req.body.nameEvent,
-      usrName : req.body.usrName,
-      usrEmail : req.body.usrEmail,
-      evtTime : req.body.evtTime,
-      long : req.body.evtLong,
-      lat: req.body.evtLat
-
-    };
-    collection.insert(info);
-    //Create Event and save to DB
-    console.log('saved event '+ req.body.nameEvent);
-
-  });
-
-  app.post('/getEvents',function(req,res){
-    var collection = db.collection('event');
-    console.log('got request');
-    var stuff =  collection.find().toArray(function(err, items) {
-      console.log(items);
-      console.log(util.inspect(collection, {showHidden: false, depth: null}));
-       return items;
-    });
-    console.log(stuff);
-
     //
     //res.send(collection);
 
@@ -66,7 +35,7 @@ MongoClient.connect("mongodb://localhost:27017/myproject", function(err, db) {
     //  console.log(docs);
     //});
 
-  });
+
 
   db.close();
 });
@@ -81,8 +50,56 @@ app.get('/', function(req, res){
 app.use(express.static(__dirname + '/dist'));
 
 
+app.post('/', function(req,res){
 
+  var info = {
+    nameEvent : req.body.nameEvent,
+    usrName : req.body.usrName,
+    usrEmail : req.body.usrEmail,
+    evtTime : req.body.evtTime,
+    evtDetails : req.body.evtDetails,
+    long : req.body.evtLong,
+    lat: req.body.evtLat
 
+  };
+
+  MongoClient.connect("mongodb://brianbest:thisisatest1@dogen.mongohq.com:10032/rally_point", function(err, db) {
+    if (!err) {
+      console.log("We are connected");
+    }
+    var collection = db.collection('event');
+    collection.insert(info);
+  });
+
+  //Create Event and save to DB
+  console.log('saved event '+ req.body.nameEvent);
+
+});
+
+app.post('/getEvents',function(req,res){
+
+  console.log('Send files');
+  var markers = [];
+  MongoClient.connect("mongodb://brianbest:thisisatest1@dogen.mongohq.com:10032/rally_point", function(err, db) {
+    if (!err) {
+      console.log("We are connected");
+    }
+    var collection = db.collection('event');
+    collection.find({}).toArray(function (err, docs) {
+      if (err) {
+        return console.error(err)
+      }
+      docs.forEach(function (doc) {
+        markers.push(doc);
+        console.log('found document: ', doc);
+
+      });
+      console.log(markers);
+      res.send({events : markers});
+    });
+  });
+
+});
 
 
 http.listen(3000, function(){

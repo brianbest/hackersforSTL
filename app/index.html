@@ -14,8 +14,7 @@
   <!-- endbuild-->
 
   <!-- general styling information -->
-  <link rel="stylesheet" href="styles/style.css">
-  <link href='http://fonts.googleapis.com/css?family=Six+Caps' rel='stylesheet' type='text/css'>
+  <!--<link rel="stylesheet" href="styles/style.css">-->
 
   <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
   <!-- build:vulcanized elements/elements.vulcanized.html -->
@@ -26,12 +25,10 @@
 
 <!-- This is the splash page for the site -->
 
-<div id="splashscreen">
-    <h2>Rally Point</h2>
-    <img src="http://i.telegraph.co.uk/multimedia/archive/02182/kitten_2182000b.jpg" />
-
-    <a href="#" class="enter_link">Enter on the website</a>
-</div>
+<!--<div id="splashscreen">-->
+    <!--<h2>Rally Point</h2>-->
+    <!--<a href="#" class="enter_link">Enter on the website</a>-->
+<!--</div>-->
 
 <!-- end of the splash page -->
 
@@ -42,47 +39,72 @@
     <google-map latitude="38.6272" longitude="-90.1978" minZoom="9" maxZoom="20" fit>
       <core-ajax auto url="/getEvents" handleAs="json" hidden method="POST"></core-ajax>
       <template repeat="{{response.events}}">
-        <google-map-marker latitude="{{lat}}" longitude="{{long}}" class="madeEvent">
-          <h3>{{name}}</h3>
+        <google-map-marker latitude="{{lat}}" longitude="{{long}}" class="madeEvent" onclick="showDetails('{{nameEvent}}','{{evtTime}}')">
+          <h2>{{nameEvent}} Start time: {{evtTime}}</h2>
+          <p>{{evtDetails}}</p>
         </google-map-marker>
       </template>
     </google-map>
   </div>
   <div class="panel_area">
+
+    <div class="logo_area">
+      <img src="images/pointer_360.png">
+      <!--<h4 align="center">Rally Point</h4>-->
+    </div>
+
     <div id="info_panel" class="info_holder">
       <button id="createEvent" onclick="makeEvent()">Create Event</button>
       <button id="joinEvent" onclick="joinEvent()">Join Event</button>
     </div>
     <div id="create_panel" class="create_holder">
+      <h2>Create event</h2>
+      <p>Create an event for people to help clean up the area</p>
       <form id="make_the_event" action="/" method="POST">
         <input type="text" name="nameEvent" placeholder="Name of event">
         <input type="text" name="usrName" placeholder="Your Name">
         <input type="email" name="usrEmail" placeholder="name@email.com">
         <input type="text" name="evtTime" placeholder="time">
+        <textarea name="evtDetails"></textarea>
         <input type="text" name="evtLong" hidden id="ent_evtLong">
         <input type="text" name="evtLat" hidden id="ent_evtLat">
-        <button id="pinBtn" onclick="dropPin()">drop pin</button>
-        <button onclick="sendEvt()">Submit Event</button>
+        <div class="btn_holder">
+          <div class="btn" id="pinBtn" onclick="dropPin()"><span>Set<br>Rally<br>Point</span></div>
+          <div class="btn" id="submitbtn"  ><span>Submit<br>Rally</span></div>
+        </div>
       </form>
     </div>
     <div id="join_panel" class="join_holder">
-      <p>There are currently no events!</p>
-      <div id="event_list">
 
+      <p>There are currently no events!</p>
+
+      <h3 id="select_evtName"></h3>
+      <h3 id="select_evtTime">Starts at  {{evtTime}}</h3>
+
+      <div id="event_list">
+        <template repeat="{{response.events}}">
+          <div class="evt_listItem">
+
+          </div>
+        </template>
       </div>
+
+    </div>
+    <div id="thx_panel" class="thx_holder">
+      <p>Thank you, your event has been created. Please refresh</p>
     </div>
   </div>
 
 
 
 
-
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
   <script>
 
-  //The splash page jQuery 
-   $('.enter_link').click(function() { 
-        $(this).parent().fadeOut(500);
- });
+  //The splash page jQuery
+//   $('.enter_link').click(function() {
+//        $(this).parent().fadeOut(500);
+// });
  // Brians original code
 
     var gmap = document.querySelector('google-map');
@@ -104,7 +126,8 @@
       createPin.setAttribute('draggable',"true");
       createPin.setAttribute('id',"createEventMarker"); // So we can steal the long lat info on submit
       gmap.appendChild(createPin);
-      document.getElementById('pinBtn').disabled = true;
+      document.getElementById('pinBtn').setAttribute('onclick','');
+      document.getElementById('submitbtn').setAttribute('onclick','sendEvt()');
     }
 
     function makeEvent(){
@@ -129,7 +152,21 @@
 
       //send to server
       document.getElementById('make_the_event').submit();
+      document.getElementById('create_panel').style.display = 'none';
+      document.getElementById('info_panel').style.display = 'none';
+      document.getElementById('join_panel').style.display = 'none';
+      document.getElementById('thx_panel').style.display = 'none';
     }
+
+  function showDetails(evtName,evtStartTime){
+
+    document.getElementById('select_evtName').innerText = evtName;
+    document.getElementById('select_evtTime').innerText = evtStartTime;
+
+    document.getElementById('create_panel').style.display = 'none';
+    document.getElementById('info_panel').style.display = 'none';
+    document.getElementById('join_panel').style.display = 'block';
+  }
 
     //List out all current events
     document.addEventListener('polymer-ready', function() {
