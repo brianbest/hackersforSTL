@@ -36,6 +36,7 @@
 <body unresolved fullbleed>
 
   <div class="map_area">
+    <div class="map_preload"></div>
     <google-map latitude="38.6272" longitude="-90.1978" minZoom="9" maxZoom="20" fit>
       <core-ajax auto url="/getEvents" handleAs="json" hidden method="POST"></core-ajax>
       <template repeat="{{response.events}}">
@@ -56,6 +57,8 @@
     </div>
 
     <div id="info_panel" class="info_holder">
+      <h1>Welcome to Rally Point</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at dolor leo. Aliquam sit amet sapien at elit interdum pulvinar sed vel elit. Vestibulum sit amet commodo quam. Integer malesuada auctor porttitor. Proin facilisis nisi vel magna interdum maximus. Quisque tincidunt varius dui, quis consectetur odio sodales et.</p>
       <button id="createEvent" onclick="makeEvent()">Create Event</button>
       <!--<button id="joinEvent" onclick="joinEvent()">Join Event</button>-->
     </div>
@@ -66,8 +69,73 @@
         <input type="text" name="nameEvent" placeholder="Name of event">
         <input type="text" name="usrName" placeholder="Your Name">
         <input type="email" name="usrEmail" placeholder="name@email.com">
-        <input type="text" name="evtTime" placeholder="time">
-        <textarea name="evtDetails"></textarea>
+        <p>Time of event:</p>
+        <select name="evtMonth">
+          <option value="jan">Jan</option>
+          <option value="feb">Feb</option>
+          <option value="mar">Mar</option>
+          <option value="apr">Apr</option>
+          <option value="may">May</option>
+          <option value="jun">Jun</option>
+          <option value="jul">Jul</option>
+          <option value="aug">Aug</option>
+          <option value="sep">Sep</option>
+          <option value="oct">Oct</option>
+          <option value="nov">Nov</option>
+          <option value="dec">Dec</option>
+        </select>
+        <select name="evtDay">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+          <option value="21">21</option>
+          <option value="22">22</option>
+          <option value="23">23</option>
+          <option value="24">24</option>
+          <option value="25">25</option>
+          <option value="26">26</option>
+          <option value="27">27</option>
+          <option value="28">28</option>
+          <option value="29">29</option>
+          <option value="30">30</option>
+          <option value="31">31</option>
+        </select>
+        <select name="evtTime">
+          <option value="1:00">1:00</option>
+          <option value="2:00">2:00</option>
+          <option value="3:00">3:00</option>
+          <option value="4:00">4:00</option>
+          <option value="5:00">5:00</option>
+          <option value="6:00">6:00</option>
+          <option value="7:00">7:00</option>
+          <option value="8:00">8:00</option>
+          <option value="9:00">9:00</option>
+          <option value="10:00">10:00</option>
+          <option value="11:00">11:00</option>
+          <option value="12:00">12:00</option>
+        </select>
+        <select name="evtAmPm">
+          <option value="am">AM</option>
+          <option value="pm">PM</option>
+        </select>
+        <textarea name="evtDetails" placeholder="Event Details"></textarea>
         <input type="text" name="evtLong" hidden id="ent_evtLong">
         <input type="text" name="evtLat" hidden id="ent_evtLat">
         <div class="btn_holder">
@@ -102,6 +170,7 @@
 
 
     gmap.addEventListener('api-load', function(e) {
+      $('.map_preload').fadeOut();
       //document.querySelector('google-map-directions').map = this.map;
     });
 
@@ -134,6 +203,7 @@
       createPin.setAttribute('latitude',"38.6272"); //places marker in center of saint louis
       createPin.setAttribute('longitude',"-90.1978");
       createPin.setAttribute('draggable',"true");
+      createPin.setAttribute('icon',"images/markerblue.png");
       createPin.setAttribute('id',"createEventMarker"); // So we can steal the long lat info on submit
       gmap.appendChild(createPin);
       document.getElementById('pinBtn').setAttribute('onclick','');

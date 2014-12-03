@@ -1,4 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Six+Caps);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
 body {
   background: #fafafa;
   font-family: 'Six Caps', sans-serif;
@@ -6,10 +7,10 @@ body {
 }
 
 p{
-  font-family: arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 google-map-marker{
-  font-family: arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .browsehappy {
@@ -57,33 +58,38 @@ google-map-marker{
 
 
 .map_area {
-  background-color: #023750;
+  //background-color: #023750;
   padding: 30px;
-  width: 500px;
-  height: 400px;
+  //width: 500px;
+  //height: 400px;
   float: left;
 }
 .panel_area {
-  background-color: #ffffff;
+  background:url(../images/paterns/white_wall_hash.png);
   width: 300px;
   float:right;
 }
 
-.info_panel{
+.info_holder{
   padding:1rem;
-  padding-top:3rem;
+  //padding-top:1rem;
+
+
+
 }
 
 #createEvent {
   background-color: #EF0456;
-  float: left;
   font-size: 40px;
   color: white;
   letter-spacing: 2px;
   width: 120px;
   height: 120px;
-  margin: 10px;
+  display: block;
+  margin: 0 auto;
+
 }
+
 button{
   border: none;
   font-family: 'Six Caps', sans-serif;
@@ -124,11 +130,42 @@ form{
     height: 1.5rem;
     border: none;
     border-bottom: 1px solid #000000;
+    background: transparent;
+    transition: border-bottom 0.3s;
+    &:focus{
+      outline:none;
+      border: none;
+      border-bottom: 1px solid #EF0456;
+    }
   }
+  p{margin: 0}
   textarea{
+    margin-top: 1rem;
     width: 100%;
     height: 4rem;
-
+    background: rgba(255,255,255,0.4);
+    border: 1px solid rgba(0,0,0,0.3);
+    transition: border 0.3s;
+    resize: none;
+    &:focus{
+      outline:none;
+      border: 1px solid #EF0456;
+    }
+  }
+  select{
+    background: transparent;
+    width: auto;
+    padding: 5px;
+    font-size: 12px;
+    line-height: 1;
+    border: 0;
+    border-radius: 0;
+    height: 34px;
+    &:focus{
+      outline:none;
+      border: 1px solid #EF0456;
+    }
+    //-webkit-appearance: none;
   }
   .btn_holder{
     overflow: auto;
