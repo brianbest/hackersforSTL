@@ -22,6 +22,8 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 //----------------------------------------------------
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
+var mongo = require('mongodb');
+var BSON = mongo.BSONPure;
 
 // Connection URL
 var url = 'mongodb://localhost/myproject';
@@ -62,7 +64,8 @@ app.post('/', function(req,res){
     evtTime : req.body.evtTime,
     evtDetails : req.body.evtDetails,
     long : req.body.evtLong,
-    lat: req.body.evtLat
+    lat: req.body.evtLat,
+    members: 1
 
   };
 
@@ -104,20 +107,35 @@ app.post('/getEvents',function(req,res){
 
 });
 
-app.get('/addMember', function(req,res){
-  theID = req.body.username;
-  MongoClient.connect("mongodb://brianbest:thisisatest1@dogen.mongohq.com:10032/rally_point", function(err, db) {
+app.get('/addMember', function(req,res) {
+  console.log('request came in');
+  theID = req._parsedOriginalUrl.query;
+
+  console.log('the id is '+ theID);
+  console.log(util.inspect(req._parsedOriginalUrl.query, {showHidden: false, depth: null}));
+  MongoClient.connect("mongodb://brianbest:thisisatest1@dogen.mongohq.com:10032/rally_point", function (err, db) {
     if (!err) {
       //console.log("We are connected");
     }
     var collection = db.collection('event');
-    collection.findOne({_id:theID}, {w:1}, function(err, doc){
+
+    var ObjectId = require('mongodb').ObjectID;
+    //var o_id = new BSON.ObjectID(theID);
+
+    collection.update({ _id: new ObjectId(theID) }, { $inc: { members:1 }},{upsert:true,safe:false},
+      function(err,data){
+        if (err){
+          console.log(err);
+        }else{
+          console.log("score succeded");
+        }
+      });
+
   });
-
-
 });
 
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
 });
+

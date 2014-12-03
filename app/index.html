@@ -42,7 +42,7 @@
         <google-map-marker latitude="{{lat}}" longitude="{{long}}" class="madeEvent" onclick="showDetails('{{nameEvent}}','{{evtTime}}')">
           <h2>{{nameEvent}} Start time: {{evtTime}}</h2>
           <p>{{evtDetails}}</p>
-          <p>Attending : </p>
+          <p>Attending : {{members}}</p>
           <button onclick="showEvtDets('{{_id}}')">More Details</button>
         </google-map-marker>
       </template>
@@ -118,7 +118,7 @@
           document.getElementById('select_evtTime').innerText = allEvents.events[i].evtTime;
           document.getElementById('select_evtDets').innerText = allEvents.events[i].evtDetails;
           document.getElementById('select_evtJoin').setAttribute('onclick',"joinEvent('"+ id +"')");
-          document.getElementById('getLocation').setAttribute('url',"joinEvent('"+ id +"')");
+          //document.getElementById('getLocation').setAttribute('url',"joinEvent('"+ id +"')");
           break;
         }else{
           console.log('Not found!');
@@ -146,7 +146,27 @@
     }
 
     function joinEvent(id){
-      $.get('/addMember',{theid : id});
+      //$.get('/addMember',{theid : id});
+
+      var xmlhttp;
+      if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange=function()
+      {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+          //document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+          console.log('done');
+        }
+      }
+      xmlhttp.open("GET","/addMember?"+id,true);
+      xmlhttp.send();
     }
 
     function sendEvt(){
